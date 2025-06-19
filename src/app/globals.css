@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-primary: #e00d1e;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-crimson: var(--font-crimson);
+  --font-teachers: var(--font-teachers);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+
+@utility container {
+  @apply mx-auto px-5;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-teachers);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch; 
+}
+
+
+/* Custom Button */
+
+.custom-button {
+  @apply text-base uppercase px-9 py-3.5 font-bold leading-5 border-2 border-primary bg-primary text-white transition-all duration-500 hover:bg-white focus:bg-white hover:text-black focus:text-black hover:border-black;
+}
+
+/* h1 to h6 */
+
+.h2-title {
+  @apply text-3xl lg:text-5xl font-semibold mb-4 font-crimson;
+}
+
+.h2-title span{
+  @apply text-primary;
+}
+
+/* image shine */
+.image-text-blk {
+  @apply relative overflow-hidden;
+}
+
+.image-text-blk::before {
+  @apply block h-full absolute top-0 left-[-75%] skew-x-[-25deg] w-[50%] z-[2] bg-[linear-gradient(to_right,rgba(255,255,255,0)_0%,rgba(255,255,255,0.3)_100%)] transition-all duration-500;
+  /* background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%); */
+  content: "";
+}
+
+.image-text-blk:hover::before,
+.image-text-blk:focus::before {
+  animation: shine 0.85s;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/* image shine end */
+
+/* section padding top-bottom */
+
+.section-padding {
+  @apply pt-10 pb-10 lg:pt-20 lg:pb-20;
+}
+
+/* section padding top-bottom end*/
+
+/* text editor anchor */
+.image-text-anchor p a {
+  @apply font-semibold underline hover:text-primary focus:text-primary;
+}
+/* text editor anchor end*/
