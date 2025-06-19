@@ -15,7 +15,8 @@ function NotFound() {
               Page not found
             </h1>
             <p className="mt-4">
-              Sorry, the page you are looking for doesn&apos;t exist. Here are some helpful links:
+              Sorry, the page you are looking for does not exist.Here are some
+              helpful links:
             </p>
 
             <div className="flex items-center mt-6 gap-x-3 max-lg:justify-center">
