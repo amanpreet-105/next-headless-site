@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { fetchGraphQL } from '@/lib/graphql-client';
 import { GET_BLOG_PAGE } from '@/lib/queries';
 import { PreloadPostCursors } from '@/lib/preload-post-cursors'
@@ -16,7 +16,6 @@ const fetcher = ([query, variables]) => fetchGraphQL(query, variables);
 function BlogPage() {
   const [cursors, setCursors] = useState([null]);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     async function loadCursors() {
@@ -25,14 +24,15 @@ function BlogPage() {
     }
     loadCursors();
   }, []);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    let pageParam = parseInt(params.get('page') || '1', 10);
+    setPage(pageParam);
+  }, []);
   
-  let pageParam = parseInt(searchParams.get('page') || '1', 10);
-  pageParam = (pageParam > cursors.length) ? 1 : pageParam;
-
-  const [currentPage, setCurrentPage] = useState(pageParam);
-
-  
-
   const { data, error, isLoading  } = useSWR(
     [GET_BLOG_PAGE, {slug:191, first: POSTS_PER_PAGE, after: cursors[currentPage - 1] }],
     fetcher,
@@ -72,9 +72,10 @@ function BlogPage() {
   const totalPages = cursors.length;
 
   useEffect(() => {
-    if (pageParam > cursors.length) {
+    if(pageParam > cursors.length)
+    {
       setCurrentPage(1);
-    } else {
+    }else{
       setCurrentPage(pageParam);
     }
   }, [pageParam, cursors.length]);
@@ -99,60 +100,60 @@ function BlogPage() {
   return (
     <>
       <HeroSection heroData={heroData}  />
-      <section className="section-padding">
-        <div className="container">
-          {isLoading && <p>Loading posts...</p>}
-          {error && <p className="text-red-600">Failed to load posts.</p>}
-          {!isLoading && posts.length > 0 && (
-            <>
-              <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-3 xl:gap-10">
-                {/* Blog Card 1*/}
-                    {posts.map((post) => (  
-                      <BlogPostCard key={post.databaseId} post={post} />
-                    ))}
-              </div>
-            
-              <div className="flex gap-2 justify-center mt-6">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => goToPage(currentPage - 1)}
-                  className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-                >
-                  ← Prev
-                </button>
-
-                {Array.from({ length: totalPages }, (_, i) => (
+        <section className="section-padding">
+          <div className="container">
+            {isLoading && <p>Loading posts...</p>}
+            {error && <p className="text-red-600">Failed to load posts.</p>}
+            {!isLoading && posts.length > 0 && (
+              <>
+                <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-3 xl:gap-10">
+                  {/* Blog Card 1*/}
+                      {posts.map((post) => (  
+                        <BlogPostCard key={post.databaseId} post={post} />
+                      ))}
+                </div>
+              
+                <div className="flex gap-2 justify-center mt-6">
                   <button
-                    key={'page_' + i}
-                    onClick={() => goToPage(i + 1)}
-                    className={` px-3 py-1 rounded ${
-                      currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                    }`}
+                    disabled={currentPage === 1}
+                    onClick={() => goToPage(currentPage - 1)}
+                    className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
                   >
-                    {i + 1}
+                    ← Prev
                   </button>
-                ))}
 
-                {pageInfo?.hasNextPage && (
-                  <button
-                    onClick={() => goToPage(currentPage + 1)}
-                    className="px-3 py-1 bg-gray-300 rounded"
-                  >
-                    Next →
-                  </button>
-                )}
-              </div>
-              {/* <BlogPagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={(page) => {
-                  router.push(`/blog?page=${page}`);
-                }}
-              /> */}
-            </>
-          )}  
-        </div>
-      </section>
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                      key={'page_' + i}
+                      onClick={() => goToPage(i + 1)}
+                      className={` px-3 py-1 rounded ${
+                        currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+
+                  {pageInfo?.hasNextPage && (
+                    <button
+                      onClick={() => goToPage(currentPage + 1)}
+                      className="px-3 py-1 bg-gray-300 rounded"
+                    >
+                      Next →
+                    </button>
+                  )}
+                </div>
+                {/* <BlogPagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={(page) => {
+                    router.push(`/blog?page=${page}`);
+                  }}
+                /> */}
+              </>
+            )}  
+          </div>
+        </section>
     </>
   );
 }
