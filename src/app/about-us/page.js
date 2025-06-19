@@ -13,7 +13,7 @@ const fetcher = async () => {
   return data;
 };
 
-function page() {
+function AboutPage() {
   const { data, error, isLoading } = useSWR('about-us-page', fetcher, {
     revalidateOnFocus: false, // Don't revalidate when window focuses
     refreshInterval: 15 * 60 * 1000, // Refresh every 15 minutes
@@ -63,4 +63,4 @@ function page() {
   )
 }
 
-export default page
+export default AboutPage
