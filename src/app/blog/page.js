@@ -72,13 +72,12 @@ function BlogPage() {
   const totalPages = cursors.length;
 
   useEffect(() => {
-    if(pageParam > cursors.length)
-    {
+    if (pageParam > cursors.length) {
       setCurrentPage(1);
-    }else{
+    } else {
       setCurrentPage(pageParam);
     }
-  }, [pageParam]);
+  }, [pageParam, cursors.length]);
 
   const goToPage = (newPage) => {
     if(pageParam > cursors.length)
