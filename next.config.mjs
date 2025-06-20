@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-    domains: ['localhost'],
     remotePatterns:[
       {
         protocol: process.env.NEXT_IMAGES_PROTOCOL,
@@ -9,6 +8,7 @@ const nextConfig = {
         pathname: '/wp-content/uploads/**', // Optional: restrict to specific paths
       },
     ],
+    domains: [process.env.NEXT_PUBLIC_WP_HOSTNAME],
   },
 };
 

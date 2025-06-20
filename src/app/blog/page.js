@@ -26,11 +26,11 @@ function BlogPage() {
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
-
+  let pageParam = 1;
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    let pageParam = parseInt(params.get('page') || '1', 10);
-    setPage(pageParam);
+    pageParam = parseInt(params.get('page') || '1', 10);
+    setCurrentPage(pageParam);
   }, []);
   
   const { data, error, isLoading  } = useSWR(
