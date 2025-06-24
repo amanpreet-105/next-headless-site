@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function BlogPostCard({ post }) {
+    console.log('post',post);
+    
     const date = new Date(post.date);
     const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric',month: 'short',day: '2-digit',}).replace(' ', '').replace(',', ',');
     return (
@@ -9,8 +11,8 @@ export default function BlogPostCard({ post }) {
             <div className="w-full h-80 overflow-hidden">
             <Image
                 className="w-full h-full object-cover transition-all group-hover:duration-300 group-hover:scale-110"
-                src="/images/blog3.jpg"
-                alt="Blog Image"
+                src={post?.featuredImage?.node?.sourceUrl ?? null }
+                alt={post?.featuredImage?.node?.altText ?? post?.title }
                 width={500}
                 height={300}
             />
