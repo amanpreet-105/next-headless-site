@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { fetchGraphQL } from '@/lib/graphql-client';
 import { GET_BLOG_PAGE } from '@/lib/queries';
@@ -11,7 +11,7 @@ import BlogPostCard from '@/components/blog/BlogPostCard';
 const POSTS_PER_PAGE = 3;
 const fetcher = ([query, variables]) => fetchGraphQL(query, variables);
 
-function BlogPage() {
+function BlogPageContent() {
   const [cursors, setCursors] = useState([null]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -112,4 +112,10 @@ function BlogPage() {
   );
 }
 
-export default BlogPage;
+export default function BlogPage(){
+  return(
+    <Suspense fallback={<div>Loading blog content...</div>}>
+      <BlogPageContent />
+    </Suspense>
+  )
+};
